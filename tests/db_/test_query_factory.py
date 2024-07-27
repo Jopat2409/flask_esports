@@ -1,4 +1,4 @@
-from esports_api.app.models import Player
+from esports_api.app.resources import Player
 from esports_api.app.db.query_factory import BasicQuery, LimitedQuery
 
 def test_basic_query():

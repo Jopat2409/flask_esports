@@ -16,9 +16,8 @@ from flask import Blueprint, Flask, Response, request
 from esports_api.utils.response_factory import ResponseFactory
 from esports_api.utils.decorators import require_int
 
-# App imports
 from esports_api.app.db.query_factory import BasicQuery, insert_one
-from esports_api.app.models import Player, Match
+from esports_api.app.resources import Player, Match
 
 class GameRouter:
     """Contains all the functions that can be overriden for a specific game's API

@@ -17,8 +17,8 @@ def get_db():
     if has_app_context():
         db = getattr(g, '_database', None)
         if db is None:
-            print(current_app.config.get("SQL_DATABASE_URI", "sqlite:///app.db"))
             db = g._database = sqlite3.connect(current_app.config.get("SQL_DATABASE_URI", "sqlite:///app.db"))
+            regenerate_db()
             db.row_factory = dict_factory
         return db
     else:
@@ -41,6 +41,6 @@ def update_db(query, args=()):
     cur.close()
 
 def regenerate_db():
-    with open(os.path.join(current_app.config.get("BASE_DIR", ""), "app", "db", "schema.sql"), "r") as f:
+    with open(os.path.join(current_app.config.get("MODULE_BASE_DIR", ""), "app", "db", "schema.sql"), "r") as f:
         schema = f.read()
     get_db().executescript(schema)

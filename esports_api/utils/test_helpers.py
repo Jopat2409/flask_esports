@@ -1,4 +1,4 @@
-from esports_api.app.models import Player, Match
+from esports_api.app.resources import Player, Match
 
 def assert_player(p1: Player, p2: Player) -> None:
     """Performs an assert for each of the attributes of the player class

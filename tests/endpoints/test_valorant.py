@@ -1,7 +1,7 @@
 from esports_api.app.valorant.routes import ValorantRoutes
 from esports_api.utils.test_helpers import assert_player, assert_match
-from esports_api.app.models.source_id import SourceId
-from esports_api.app.models import Player, Match
+from esports_api.source_id import SourceId
+from esports_api.app.resources import Player, Match
 
 def test_scrape_player():
     zekken = Player(SourceId("valorant", 4004), "zekken", "Zachary", "Patrone", "//owcdn.net/img/6416956f0da1e.png", 2)

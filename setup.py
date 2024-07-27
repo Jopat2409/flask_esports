@@ -12,6 +12,7 @@ setup(
     author='Joe Paton',
     author_email='joantpat@gmail.com',
     url="https://github.com/Jopat2409/esports-api",
-    packages=['esports_api', 'esports_api.app', 'esports_api.utils', 'esports_api.app.resources'],
+    packages=['esports_api', 'esports_api.app', 'esports_api.utils', 'esports_api.app.resources', 'esports_api.app.db'],
     install_requires=['flask', 'python-dotenv', 'lxml', 'requests'], #external packages as dependencies
+    scripts=["scripts/create_app.py"]
 )
