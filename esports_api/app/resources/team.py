@@ -8,7 +8,7 @@ information about teams
 from __future__ import annotations
 from enum import IntEnum
 
-from esports_api.app.resources import SourceId
+from esports_api.source import SourceId
 
 class Role(IntEnum):
     HEAD_COACH = 1

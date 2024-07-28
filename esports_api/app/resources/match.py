@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from esports_api.source_id import SourceId
+from esports_api.source import SourceId
 
 class Match:
 
