@@ -1,8 +1,8 @@
 """Helper classes and functions for creating and executing database queries
 """
-from esports_api.app.db.db import query_db, update_db
-
 from typing import Generic, TypeVar
+
+from .db import query_db, update_db
 
 T = TypeVar("T")
 

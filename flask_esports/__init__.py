@@ -6,7 +6,7 @@ TO IMPLEMENT:
     [ ] - Allow for secure sessions / option for API key generation
     [ ]
 """
-from esports_api.source import Source, SourceId
+from .source import SourceId
 
 def set_endpoint_directory(dir_: str) -> None:
     from esports_api.config import Config
@@ -25,4 +25,4 @@ def run() -> None:
     app = create_app()
     app.run()
 
-__all__ = [Source, SourceId, set_endpoint_directory]
+__all__ = [SourceId, set_endpoint_directory]

@@ -1,3 +1,29 @@
+"""This script is made to streamline the process of setting up an API application using the flask_esports package
+
+It will create a project that uses the following template
+    root
+    |- api
+        |- endpoints
+            |- game1
+                |- __init__.py
+                |- routes.py
+            |- game2
+                |- __init__.py
+                |- routes.py
+                |- constants.py
+        |- main.py
+    |- venv
+    |- tests
+    |- README etc.
+
+Where each game (endpoint) that will be implemented into the project is specified as a CL argument.
+
+Each router.py file subclasses the `GameRouter` class to implement methods for fetching data from whatever source
+is being used.
+
+Each __init__.py file imports this subclassed `GameRouter` and creates a `GameBlueprint` with it, whichr registers
+all the correct routes with the central flask application
+"""
 import os
 import sys
 
@@ -9,8 +35,8 @@ def create_route_file(root: str, endpoint: str) -> None:
     from the given data point.
     """
     with open(os.path.join(root, "router.py"), 'w+', encoding='utf-8') as f:
-        f.write(f"""from esports_api.utils.game_router import GameRouter
-from esports_api.utils.response_factory import ResponseFactory
+        f.write(f"""from esports_api.app.game_router import GameRouter
+from esports_api.app.response_factory import ResponseFactory
 
 from esports_api.app.resources import Player, Match, Team, Event
 
@@ -57,31 +83,31 @@ class {endpoint.lower().capitalize()}Router(GameRouter):
 
 def create_init_file(root: str, endpoint: str) -> None:
     with open(os.path.join(root, "__init__.py"), "w+", encoding='utf-8') as f:
-        f.write(f"""from esports_api.utils.game_router import GameBlueprint
+        f.write(f"""from esports_api.app.game_blueprint import GameBlueprint
 from endpoints.{endpoint}.router import {endpoint.lower().capitalize()}Router
 
 router = GameBlueprint({endpoint.lower().capitalize()}Router, "{endpoint}", __name__)""")
 
 
 def create_tree(root: str, tree: dict) -> None:
-    # recursively create dir
+    """Creates a directory tree given a dictionary representing the directory tree to create.
+
+    For example, `{'tests': {}, 'src': {}}` would create two empty directories `root/tests` and `root/utils`,
+    wheras `{'tests': {'utils': {}, 'endpoints': {}}}` would create `root/tests`, `root/tests/utils` and `root/tests/endpoints`
+
+    Args:
+        root (str): The root folder to create the directory tree from
+        tree (dict): The tree, given as a dictionary where each key represents a directory name, and the dict value its directory contents
+
+    Returns:
+        None
+    """
     for branch in tree:
         os.mkdir(os.path.join(root, branch))
         create_tree(os.path.join(root, branch), tree[branch])
 
 def setup_project_structure(root: str, endpoints: list[str]):
     """Project directory should look something like
-
-    root
-    |- api
-        |- endpoints
-            |- game1
-                |- __init__.py
-                |- routes.py
-        |- main.py
-    |- venv
-    |- tests
-    |- README etc.
     """
     create_tree(root, {"api": {"endpoints": {ep: {} for ep in endpoints}, "helpers": {}, }, "tests": {}})
 

@@ -1,17 +1,5 @@
 from __future__ import annotations
 
-class Source:
-
-    def __init__(self, source_name: str, source_suffixes: list[str] = [], is_root: bool = False):
-        self.sources = [f"{source_name}_{suffix}" for suffix in source_suffixes] or [source_name]
-        self.api_endpoint = ("/" if is_root else f"/{source_name}")
-
-    def get_querystring(self) -> str:
-        return (f"source IN {self.sources}".replace("'", '"') if len(self.sources) > 1 else f'source = "{self.sources[0]}"')
-
-    def get_endpoint(self) -> str:
-        return self.api_endpoint
-
 class SourceId:
 
     def __init__(self, src: str, id_: int) -> None:

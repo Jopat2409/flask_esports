@@ -1,112 +1,11 @@
-"""Custom classes used to make implementing new games to the API a much easier ordeal
-
-The `GameRouter` class contains all the static methods that should can be overridden to create your own API endpoints, for
-example, if you wanted to add a League of Legends API to this project, you would create a child class of `GameRouter` and
-override each of the endpoint methods with their own API calls to get league data. See more info in the `GameRouter` class itself
-
-The `GameBlueprint` class is created using a GameRouter, and uses all of the overridden (or default implementations if an endpoint is not supported)
-static methods to create a flask blueprint for the game API that you are creating
-"""
-from __future__ import annotations
-
-# 3rd party imports
 from flask import Blueprint, Flask, Response, request
 
-# Utility functions
-from esports_api.utils.response_factory import ResponseFactory
-from esports_api.utils.decorators import require_int
 
-from esports_api.app.db.query_factory import BasicQuery, insert_one
-from esports_api.app.resources import Player, Match
-
-class GameRouter:
-    """Contains all the functions that can be overriden for a specific game's API
-
-    Functions:
-        - `get_player`
-        - `get_player_matches`
-        - `get_player_teams`
-        - `get_team`
-        - `get_team_matches`
-        - `get_team_players`
-        - `get_match`
-        - `get_event`
-        - `get_event_matches`
-        - `get_event_teams`
-    """
-
-    @staticmethod
-    def is_implemented(router: GameRouter, method: str) -> bool:
-        return getattr(router, method) != getattr(GameRouter, method)
-
-    @staticmethod
-    def get_player(player_id: int) -> Player | None:
-        """This method should be overridden if you want to allow people to access individual player data from your
-        game's endpoint
-
-        Args:
-            player_id (str): The player_id (not source_id) of the player in the database. This should correspond to the ID
-            used to access the player's data from whatever external site or API you are using to scrape the data from
-
-        Returns:
-            Player | None: the player data returned (or None if the player does not exist)
-        """
-        return None
-
-    @staticmethod
-    def get_player_matches(player_id: int, page: int) -> list | None:
-        """This method should be overridden if you want to allow people to access a list of matches that a specific player
-        has played in
-
-        Args:
-            player_id (str): The id of the player to get the matches for
-
-        Returns:
-            list | None: a list of the matches that the player has played (or None if the )
-        """
-        return None
-
-    @staticmethod
-    def get_player_teams(player_id: int) -> list | None:
-        """This method should be overridden if you want to allow users to access a list of teams a player has been a part
-        of
-
-        Args:
-            player_id (int): _description_
-            page (int): The page of teams to get data from. Each page has 20 entries
-
-        Returns:
-            list | None: list of player teams, or None if this method is not supported
-        """
-        return None
-
-    @staticmethod
-    def get_team(team_id: int) -> Response:
-        return ResponseFactory.error("This game does not support getting team data")
-
-    @staticmethod
-    def get_team_matches(team_id: int, page: int) -> Response:
-        return ResponseFactory.error("This game does not support getting a team's matches")
-
-    @staticmethod
-    def get_team_players(team_id: int) -> Response:
-        return ResponseFactory.error("This game does not support getting a team's previous rosters")
-
-    @staticmethod
-    def get_match(match_id: int) -> Response:
-        return ResponseFactory.error("This game does not support getting match data")
-
-    @staticmethod
-    def get_event(event_id: int) -> Response:
-        return ResponseFactory.error("This game does not support events")
-
-    @staticmethod
-    def get_event_matches(event_id: int) -> Response:
-        return ResponseFactory.error("This game does not support getting matches by event")
-
-    @staticmethod
-    def get_event_teams(event_id: int) -> Response:
-        return ResponseFactory.error("This game does not support getting the teams from an event")
+from .game_router import GameRouter
+from .app.resources import Player, Match
+from .app.response_factory import ResponseFactory
+from .app.db.query_factory import BasicQuery, insert_one
+from .utils.decorators import require_int
 
 class GameBlueprint:
     """

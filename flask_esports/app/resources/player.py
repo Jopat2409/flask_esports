@@ -1,7 +1,7 @@
 from __future__ import annotations
 import time
 
-from esports_api.source import SourceId
+from ...source import SourceId
 
 class Player:
 

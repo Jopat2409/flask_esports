@@ -1,10 +1,10 @@
 import os
 import sqlite3
-from flask import g, has_app_context, current_app
+
 from dotenv import load_dotenv
+from flask import g, has_app_context, current_app
 
 load_dotenv()
-
 db_handle: sqlite3.Connection | None = None
 
 def dict_factory(cursor, row):
@@ -22,7 +22,7 @@ def get_db():
             db.row_factory = dict_factory
         return db
     else:
-        from esports_api.config import Config
+        from flask_esports.config import Config
         global db_handle
         if db_handle is None:
             db_handle = sqlite3.connect(Config.SQL_DATABASE_URI)

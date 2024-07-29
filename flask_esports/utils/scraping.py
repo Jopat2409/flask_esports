@@ -9,8 +9,9 @@ Utility functions:
 """
 # Standard library
 import requests
-from datetime import datetime
+
 from typing import Optional
+from datetime import datetime
 
 # 3rd party imports
 from lxml import html
@@ -103,6 +104,10 @@ class XpathParser:
             return None
 
         return elem.text.strip()
+
+def create_xpath(elem: str, root: str = '', **kwargs) -> str:
+    # Worst f string ever
+    return f"{root}//{elem}[{' and '.join(f'''contains(@{arg}, '{kwargs[arg]}')''' for arg in kwargs)}]"
 
 #TODO: update this to use typevars for typehinting
 def get_url_segment(url: str, index: int, rtype: type = str):

@@ -2,8 +2,7 @@ import os
 from flask import Flask
 from importlib import import_module
 
-from esports_api.config import Config
-from esports_api.app.db.db import regenerate_db
+from ..config import Config
 
 def register_game(app: Flask, game: str) -> None:
     """Registers a game's API endpoint with the main app
