@@ -2,7 +2,7 @@ import pytest
 
 from contextlib import nullcontext
 
-from flask_esports.utils.scraping import get_url_segment, epoch_from_timestamp, XpathParser, create_xpath
+from flask_esports.utils.scraping import get_url_segment, epoch_from_timestamp
 
 def test_xpath_parser():
     """How do we test this and guarantee it works every time since XPATHs will naturally change sometimes??
@@ -30,11 +30,3 @@ def test_get_url_segment(url, index, rtype, result, err):
 def test_epoch_from_timestamp(ts, fmt, epoch, err):
     with pytest.raises(err) if err else nullcontext():
         assert epoch_from_timestamp(ts, fmt) == epoch
-
-@pytest.mark.parametrize("elem,root,kwargs,xpath", [
-    ("div", '', {"class": "vm-stats-game "}, "//div[contains(@class, 'vm-stats-game ')]"),
-    ("div", '', {"class": "vm-stats-game ", "data-game-id": "all"}, "//div[contains(@class, 'vm-stats-game ') and contains(@data-game-id, 'all')]"),
-    ("div", create_xpath("div", class_="vm-stats-game "), {"class": "vm-stats-game ", "data-game-id": "all"}, "//div[contains(@class_, 'vm-stats-game ')]//div[contains(@class, 'vm-stats-game ') and contains(@data-game-id, 'all')]"),
-])
-def test_create_xpath(elem, root, kwargs, xpath):
-    assert create_xpath(elem, root, **kwargs) == xpath

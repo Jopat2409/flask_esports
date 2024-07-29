@@ -1,19 +1,12 @@
-"""Utility functions that can help with scraping data from the external sites
+"""This module implements classes and functions that help with scraping data by XPATHs
 
-Implemented classes:
-    - `XpathParser` allows for parsing XPATH strings when given the URL of a site to scrape
-
-Utility functions:
-    - `get_url_segment`
-    - `epoch_from_timestamp`
+Implements:
+    - `XpathParser`, a class that can be used to scrape sites by xpath strings
+    - `create_xpath`, a function that generates xpath strings based on the arguments passed
 """
-# Standard library
 import requests
-
 from typing import Optional
-from datetime import datetime
 
-# 3rd party imports
 from lxml import html
 
 class XpathParser:
@@ -106,33 +99,15 @@ class XpathParser:
         return elem.text.strip()
 
 def create_xpath(elem: str, root: str = '', **kwargs) -> str:
-    # Worst f string ever
+    """Create an XPATH string that selects the element passed into the `elem` parameter which matches the htmlelement
+    attributes specified using the keyword arguments
+
+    Args:
+        elem (str): The element to select. For example, `div`, `class`, `a`
+        root (str, optional): An optional XPATH that is the root node of this XPATH. Defaults to ''.
+
+    Returns:
+        str: The XPATH created
+    """
+    # Worst f string ever :D
     return f"{root}//{elem}[{' and '.join(f'''contains(@{arg}, '{kwargs[arg]}')''' for arg in kwargs)}]"
-
-#TODO: update this to use typevars for typehinting
-def get_url_segment(url: str, index: int, rtype: type = str):
-    """Returns the segment of the given url at the index supplied\n
-    Returns the value as a string by default but the `rtype` parameter can be specified to automatically cast it, if you
-    are trying to extract an integer ID for example
-
-    Args:
-        url (str): The url to get the segment from
-        index (int): the index of the segment
-        rtype (type, optional): The type to cast the segment to before returning. Defaults to str.
-
-    Returns:
-        rtype: The segment of the URL
-    """
-    return rtype(url.split("/")[index].strip())
-
-def epoch_from_timestamp(ts: str, fmt: str) -> float:
-    """Converts a given timestamp to seconds from the epoch, given the format of the timestamp
-
-    Args:
-        ts (str): The timestamp to convert
-        fmt (str): The format of the timestamp to convert to
-
-    Returns:
-        float: The time in seconds since the 1st Jan 1970
-    """
-    return datetime.strptime(ts, fmt).timestamp()
