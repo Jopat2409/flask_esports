@@ -17,6 +17,7 @@ def require_int(arg: str,  error_message: str) -> callable:
         def inner(*args, **kwargs):
             try:
                 kwargs[arg] = float(kwargs[arg])
+                # Trigger exception return
                 if int(kwargs[arg]) != kwargs[arg]:
                     raise ValueError("Float passed into function requiring integer")
                 kwargs[arg] = int(kwargs[arg])
