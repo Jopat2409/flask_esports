@@ -1,5 +1,5 @@
-from esports_api.app.resources import Player
-from esports_api.app.db.query_factory import BasicQuery, LimitedQuery
+from flask_esports.app.resources import Player
+from flask_esports.app.db.query_factory import BasicQuery, LimitedQuery
 
 def test_basic_query():
     q = BasicQuery(Player, "valorant", player_id=10)

@@ -1,4 +1,4 @@
-# esports-api
+# flask_esports
 A custom flask framework for creating esports APIs based off of web scraping
 
 # Working on the source

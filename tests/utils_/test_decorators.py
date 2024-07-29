@@ -1,4 +1,4 @@
-from esports_api.utils.decorators import require_int
+from flask_esports.utils.decorators import require_int
 
 def test_require_int(app):
 

@@ -2,7 +2,7 @@ import pytest
 from contextlib import nullcontext
 
 
-from esports_api import Source, SourceId
+from flask_esports import Source, SourceId
 
 @pytest.mark.parametrize("endpoint, valid", [
     (" /test", False), ("/test ", False), ("/test?", False), ("/test space", False), ("//test", False), ("", False), (" ", False), ("/ ", False),

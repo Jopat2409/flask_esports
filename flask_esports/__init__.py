@@ -9,19 +9,19 @@ TO IMPLEMENT:
 from .source import SourceId
 
 def set_endpoint_directory(dir_: str) -> None:
-    from esports_api.config import Config
+    from flask_esports.config import Config
     Config.API_ENDPOINT_DIR = dir_
 
 def set_debug(debug: bool) -> None:
-    from esports_api.config import Config
+    from flask_esports.config import Config
     Config.DEBUG = debug
 
 def set_testing(testing: bool) -> None:
-    from esports_api.config import Config
+    from flask_esports.config import Config
     Config.TESTING = testing
 
 def run() -> None:
-    from esports_api.app import create_app
+    from flask_esports.app import create_app
     app = create_app()
     app.run()
 

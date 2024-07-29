@@ -1,7 +1,7 @@
 import pytest
 
-from esports_api import set_testing
-from esports_api.app import create_app
+from flask_esports import set_testing
+from flask_esports.app import create_app
 
 @pytest.fixture()
 def app():

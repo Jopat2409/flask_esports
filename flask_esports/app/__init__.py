@@ -1,6 +1,7 @@
 import os
-from flask import Flask
 from importlib import import_module
+
+from flask import Flask
 
 from ..config import Config
 
