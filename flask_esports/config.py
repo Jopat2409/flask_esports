@@ -17,5 +17,14 @@ class Config:
     API_ENDPOINT_DIR = os.path.join(BASE_DIRECTORY, "endpoints")
     SQL_DATABASE_URI = os.environ.get("SQL_DATABASE_URI") or os.path.join(BASE_DIRECTORY, "app.db")
 
-    DEBUG = True
-    TESTING = False
+    APP_DEBUG = True
+    APP_TESTING = False
+
+def set_endpoint_directory(dir_: str) -> None:
+    Config.API_ENDPOINT_DIR = dir_
+
+def set_debug(debug: bool) -> None:
+    Config.APP_DEBUG = debug
+
+def set_testing(testing: bool) -> None:
+    Config.APP_TESTING = testing
