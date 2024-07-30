@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-class SourceId:
 
+class SourceId:
     def __init__(self, src: str, id_: int) -> None:
         """Creates a sourceId object given the site source and the ID of the site resource
 

@@ -41,3 +41,10 @@ testpaths = ["tests"]
 [tool.coverage.run]
 branch = true
 source = ["flask_esports", "tests"]
+
+[tool.ruff]
+exclude = ["tests/*.py"] # Exclude tests from ruff linting
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore `E402` (import violations) in all `__init__.py` files, and in `path/to/file.py`.
+"__init__.py" = ["E402"]

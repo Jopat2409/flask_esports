@@ -24,8 +24,10 @@ is being used.
 Each __init__.py file imports this subclassed `GameRouter` and creates a `GameBlueprint` with it, whichr registers
 all the correct routes with the central flask application
 """
+
 import os
 import sys
+
 
 def create_route_file(root: str, endpoint: str) -> None:
     """
@@ -34,7 +36,7 @@ def create_route_file(root: str, endpoint: str) -> None:
     Contains am implementation of the GameRouter class which implements each function required for fetching resources
     from the given data point.
     """
-    with open(os.path.join(root, "router.py"), 'w+', encoding='utf-8') as f:
+    with open(os.path.join(root, "router.py"), "w+", encoding="utf-8") as f:
         f.write(f"""from esports_api.app.game_router import GameRouter
 from esports_api.app.response_factory import ResponseFactory
 
@@ -81,8 +83,9 @@ class {endpoint.lower().capitalize()}Router(GameRouter):
     def get_event_teams(event_id: int) -> list[Team]:
         return ResponseFactory.error("This game does not support getting the teams from an event")""")
 
+
 def create_init_file(root: str, endpoint: str) -> None:
-    with open(os.path.join(root, "__init__.py"), "w+", encoding='utf-8') as f:
+    with open(os.path.join(root, "__init__.py"), "w+", encoding="utf-8") as f:
         f.write(f"""from esports_api.app.game_blueprint import GameBlueprint
 from endpoints.{endpoint}.router import {endpoint.lower().capitalize()}Router
 
@@ -106,18 +109,29 @@ def create_tree(root: str, tree: dict) -> None:
         os.mkdir(os.path.join(root, branch))
         create_tree(os.path.join(root, branch), tree[branch])
 
+
 def setup_project_structure(root: str, endpoints: list[str]):
-    """Project directory should look something like
-    """
-    create_tree(root, {"api": {"endpoints": {ep: {} for ep in endpoints}, "helpers": {}, }, "tests": {}})
+    """Project directory should look something like"""
+    create_tree(
+        root,
+        {
+            "api": {
+                "endpoints": {ep: {} for ep in endpoints},
+                "helpers": {},
+            },
+            "tests": {},
+        },
+    )
+
 
 def create_app(endpoints):
     root_dir = os.getcwd()
     setup_project_structure(root_dir, endpoints)
     for endpoint in endpoints:
-        create_route_file(os.path.join(root_dir, "api", "endpoints", endpoint), endpoint)
+        create_route_file(
+            os.path.join(root_dir, "api", "endpoints", endpoint), endpoint
+        )
         create_init_file(os.path.join(root_dir, "api", "endpoints", endpoint), endpoint)
-
 
 
 if __name__ == "__main__":

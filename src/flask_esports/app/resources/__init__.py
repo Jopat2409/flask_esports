@@ -7,6 +7,7 @@ These are:
     - `Team`
     - `Event`
 """
+
 from .player import Player
 from .match import Match
 from .team import Team

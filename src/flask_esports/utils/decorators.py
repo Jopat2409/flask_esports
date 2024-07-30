@@ -1,8 +1,9 @@
-"""Useful decorator functions to reduce code duplication in the API coedebase
-"""
+"""Useful decorator functions to reduce code duplication in the API coedebase"""
+
 from ..api.response_factory import ResponseFactory
 
-def require_int(arg: str,  error_message: str) -> callable:
+
+def require_int(arg: str, error_message: str) -> callable:
     """Decorator that automatically takes in a route's argument (arg) and returns an error response if the
     argument cannot be converted to an integer / is not in integer form.
 
@@ -13,6 +14,7 @@ def require_int(arg: str,  error_message: str) -> callable:
         arg (str): The argument that should be a valid integer
         error_message (str): The error message to return using `ResponseFactory.error` if the argument is not valid
     """
+
     def require_int(func) -> callable:
         def inner(*args, **kwargs):
             try:
@@ -23,7 +25,12 @@ def require_int(arg: str,  error_message: str) -> callable:
                 kwargs[arg] = int(kwargs[arg])
             except ValueError:
                 return ResponseFactory.error(error_message)
-            return func(*args, **kwargs) if int(kwargs[arg]) == kwargs[arg] else ResponseFactory.error(error_message)
-        return inner
-    return require_int
+            return (
+                func(*args, **kwargs)
+                if int(kwargs[arg]) == kwargs[arg]
+                else ResponseFactory.error(error_message)
+            )
 
+        return inner
+
+    return require_int

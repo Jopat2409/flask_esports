@@ -5,6 +5,7 @@ This includes:
     - `GameRouter`, the static class that contains all data-fetch methods that can be overriden
     - `ResponseFactory`, the factory class that should be used whenever a flask Response should be returned
 """
+
 from .game_blueprint import GameBlueprint
 from .game_router import GameRouter
 from .response_factory import ResponseFactory
