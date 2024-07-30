@@ -2,12 +2,14 @@
 
 Implements:
     - `XpathParser`, a class that can be used to scrape sites by xpath strings
-    - `create_xpath`, a function that generates xpath strings based on the arguments passed
+    - `xpath`, a function that generates xpath strings based on the arguments passed
 """
+
 import requests
 from typing import Optional
 
 from lxml import html
+
 
 class XpathParser:
     """Wrapper class around a `requests.get()` call that implements easier methods of parsing XPATH
@@ -21,7 +23,9 @@ class XpathParser:
             url (str): The url of the website to parse
         """
         response = requests.get(url)
-        self.content = html.fromstring(response.content) if response.status_code == 200 else None
+        self.content = (
+            html.fromstring(response.content) if response.status_code == 200 else None
+        )
 
     def was_success(self) -> bool:
         """Did the parser recieve a 200 response from the provided url, without any error
@@ -43,7 +47,7 @@ class XpathParser:
         elem = self.content.xpath(xpath)
         return elem[0] if elem else None
 
-    def get_elements(self, xpath: str, attr: str = '') -> list[html.HtmlElement]:
+    def get_elements(self, xpath: str, attr: str = "") -> list[html.HtmlElement]:
         """Gets a list of htmlElements that match a given XPATH
 
         TODO: Do we want this to return null values for failed GETS or do we want this to return only the successful
@@ -56,7 +60,11 @@ class XpathParser:
         Returns:
             list[str | html.HtmlElement]: The list of elements that match the given XPATH
         """
-        return [elem.get(attr, None) for elem in self.content.xpath(xpath)] if attr else self.content.xpath(xpath)
+        return (
+            [elem.get(attr, None) for elem in self.content.xpath(xpath)]
+            if attr
+            else self.content.xpath(xpath)
+        )
 
     def get_img(self, xpath: str) -> Optional[str]:
         """Gets an image src from a given XPATH string
@@ -98,7 +106,8 @@ class XpathParser:
 
         return elem.text.strip()
 
-def xpath(elem: str, root: str = '', **kwargs) -> str:
+
+def xpath(elem: str, root: str = "", **kwargs) -> str:
     """Create an XPATH string that selects the element passed into the `elem` parameter which matches the htmlelement
     attributes specified using the keyword arguments.
 
@@ -112,8 +121,28 @@ def xpath(elem: str, root: str = '', **kwargs) -> str:
     Returns:
         str: The XPATH created
     """
+
+    # Replace class_ and id_ filters with corresponding html tags
+    filters = {
+        "class": kwargs.pop("class_", None),
+        "id": kwargs.pop("id_", None),
+        **kwargs,
+    }
+
     # Worst f string ever :D
-    return f"{root}//{elem}[{' and '.join(f'''contains(@{arg}, '{kwargs[arg]}')''' for arg in kwargs)}]"
+    return f"{root}//{elem}[{' and '.join(f'''contains(@{arg}, '{filters[arg]}')''' for arg in [k for k, v in filters.items() if v])}]".replace(
+        "[]", ""
+    )
+
 
 def join(*xpath: list[str]) -> str:
-    return "//".join(xpath)
+    """Create an xpath that is the combination of the xpaths provided
+    Performs a similar function to os.path.join()
+
+    Args:
+        *xpath (list[str]): The xpaths or elements to combine
+
+    Returns:
+        str: _description_
+    """
+    return "//" + "//".join(map(lambda f: f[2:] if f.startswith("//") else f, xpath))

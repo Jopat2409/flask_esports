@@ -5,9 +5,10 @@ Implements:
     - `get_url_segment`
     - `epoch_from_timestamp`
 """
+
 from datetime import datetime
 
-#TODO: update this to use typevars for typehinting
+
 def get_url_segment(url: str, index: int, rtype: type = str):
     """Isolate the segment of the given url at the index supplied\n
     The `rtype` parameter can be specified to automatically cast the return value,
@@ -22,6 +23,7 @@ def get_url_segment(url: str, index: int, rtype: type = str):
         rtype: The segment of the URL
     """
     return rtype(url.split("/")[index].strip())
+
 
 def epoch_from_timestamp(ts: str, fmt: str) -> float:
     """Converts a given timestamp to seconds from the epoch, given the format of the timestamp
