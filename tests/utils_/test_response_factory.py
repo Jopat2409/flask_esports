@@ -1,4 +1,4 @@
-from flask_esports.app.response_factory import ResponseFactory
+from flask_esports.api.response_factory import ResponseFactory
 
 def test_success(app):
     """Test success response

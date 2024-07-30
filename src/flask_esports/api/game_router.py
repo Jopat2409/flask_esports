@@ -7,7 +7,7 @@ override each of the endpoint methods with their own API calls to get league dat
 from __future__ import annotations
 from typing import Optional
 
-from .app.resources import Player, Match, Team, Event
+from ..app.resources import Player, Match, Team, Event
 
 class GameRouter:
     """Data structure that contains all the functions that can be overriden for a specific game's API

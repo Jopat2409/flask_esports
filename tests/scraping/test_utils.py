@@ -2,7 +2,7 @@ import pytest
 
 from contextlib import nullcontext
 
-from flask_esports.utils.scraping import get_url_segment, epoch_from_timestamp
+from flask_esports.scraping.utils import get_url_segment, epoch_from_timestamp
 
 def test_xpath_parser():
     """How do we test this and guarantee it works every time since XPATHs will naturally change sometimes??

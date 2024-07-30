@@ -1,6 +1,6 @@
 """Useful decorator functions to reduce code duplication in the API coedebase
 """
-from ..app.response_factory import ResponseFactory
+from ..api.response_factory import ResponseFactory
 
 def require_int(arg: str,  error_message: str) -> callable:
     """Decorator that automatically takes in a route's argument (arg) and returns an error response if the

@@ -2,10 +2,12 @@ from flask import Blueprint, Flask, Response, request
 
 
 from .game_router import GameRouter
-from .app.resources import Player, Match
-from .app.response_factory import ResponseFactory
-from .app.db.query_factory import BasicQuery, insert_one
-from .utils.decorators import require_int
+from .response_factory import ResponseFactory
+
+from ..app.resources import Player, Match
+from ..app.db.query_factory import BasicQuery, insert_one
+
+from ..utils.decorators import require_int
 
 class GameBlueprint:
     """
@@ -14,6 +16,13 @@ class GameBlueprint:
 
     @staticmethod
     def require_implemented(callback: str, endpoint: str):
+        """Decorator that forces a function to return a `ResponseFactory.error` instance if the given `GameRouter`
+        does not implement the given callback method
+
+        Args:
+            callback (str): the name of the method that must be implemented for the decorated function to run
+            endpoint (str): the name of the endpoint that this function is decorating
+        """
         def require_implemented(func):
             def inner(*args, **kwargs):
                 game = kwargs.get("game", None) or args[0]

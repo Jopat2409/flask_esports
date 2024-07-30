@@ -98,9 +98,12 @@ class XpathParser:
 
         return elem.text.strip()
 
-def create_xpath(elem: str, root: str = '', **kwargs) -> str:
+def xpath(elem: str, root: str = '', **kwargs) -> str:
     """Create an XPATH string that selects the element passed into the `elem` parameter which matches the htmlelement
-    attributes specified using the keyword arguments
+    attributes specified using the keyword arguments.
+
+    Since `class` and `id` are restriced keywords in python, if you want to get an element by either of these, use
+    `class_=<>` and `id_=<>` instead, and the function will automatically remove the "_"
 
     Args:
         elem (str): The element to select. For example, `div`, `class`, `a`
@@ -111,3 +114,6 @@ def create_xpath(elem: str, root: str = '', **kwargs) -> str:
     """
     # Worst f string ever :D
     return f"{root}//{elem}[{' and '.join(f'''contains(@{arg}, '{kwargs[arg]}')''' for arg in kwargs)}]"
+
+def join(*xpath: list[str]) -> str:
+    return "//".join(xpath)
