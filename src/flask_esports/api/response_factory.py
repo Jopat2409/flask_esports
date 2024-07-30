@@ -2,7 +2,9 @@
 
 If the response style of the application should be changed, it can be done so by changing the methods here
 """
-from flask import jsonify, Response
+
+from flask import Response, jsonify
+
 
 class ResponseFactory:
     """Static class containing functions used to generate API responses.\n
@@ -38,7 +40,9 @@ class ResponseFactory:
         return jsonify({"success": True, "data": data})
 
     @staticmethod
-    def conditional(condition: bool, data: dict | list, msg: str = "There was an error") -> Response:
+    def conditional(
+        condition: bool, data: dict | list, msg: str = "There was an error"
+    ) -> Response:
         """Creates an `error` response if the condition is false, otherwise creates a `success` response
 
         Args:
@@ -49,4 +53,9 @@ class ResponseFactory:
         Returns:
             Response: The generated flask `Response` based on the `condition`
         """
-        return jsonify({"success": True if condition else False, "data": data if condition else {"error-message": msg}})
+        return jsonify(
+            {
+                "success": True if condition else False,
+                "data": data if condition else {"error-message": msg},
+            }
+        )

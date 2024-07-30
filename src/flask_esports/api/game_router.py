@@ -4,10 +4,13 @@ The `GameRouter` class contains all the static methods that should can be overri
 example, if you wanted to add a League of Legends API to this project, you would create a child class of `GameRouter` and
 override each of the endpoint methods with their own API calls to get league data. See more info in the `GameRouter` class itself
 """
+
 from __future__ import annotations
+
 from typing import Optional
 
-from ..app.resources import Player, Match, Team, Event
+from ..app.resources import Event, Match, Player, Team
+
 
 class GameRouter:
     """Data structure that contains all the functions that can be overriden for a specific game's API
