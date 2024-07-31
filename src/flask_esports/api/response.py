@@ -5,6 +5,35 @@ If the response style of the application should be changed, it can be done so by
 
 from flask import Response, jsonify
 
+class Message:
+
+    @staticmethod
+    def endpoint_not_supported_error(endpoint: str, game: str = "") -> str:
+        """Create a standardized error message for when the user is attempting to access an endpoint that is not supported
+        by the API
+
+        Args:
+            game (str): The game that the endpoint is attempting to be reached on (/tf2, /valorant etc.)
+            endpoint (str): the endpoint
+
+        Returns:
+            str: the error message
+        """
+        return f"The {game or 'standard'} API does not support {endpoint}. Please refer to the documentation for a list of available endpoints."
+
+    @staticmethod
+    def invalid_identifier_error(name: str, value: str = "") -> str:
+        """Create a standardized error message indicating that the given integer identifier was invalid
+
+        Args:
+            name (str): the name of the id parameter that was invalid
+            value (str): the value of the id parameter
+
+        Returns:
+            str: the error message
+        """
+        return f"The given value of {name} is invalid. It must be an integer value."
+
 
 class ResponseFactory:
     """Static class containing functions used to generate API responses.\n

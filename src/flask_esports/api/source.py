@@ -1,8 +1,8 @@
 """Custom classes used to make implementing new games to the API a much easier ordeal
 
-The `GameRouter` class contains all the static methods that should can be overridden to create your own API endpoints, for
-example, if you wanted to add a League of Legends API to this project, you would create a child class of `GameRouter` and
-override each of the endpoint methods with their own API calls to get league data. See more info in the `GameRouter` class itself
+The `DataSource` class contains all the static methods that should can be overridden to create your own API endpoints, for
+example, if you wanted to add a League of Legends API (god forbid) to this project, you would create a child class of `DataSource` and
+override each of the endpoint methods with their own API calls to get league data. See more info in the `DataSource` class itself
 """
 
 from __future__ import annotations
@@ -12,8 +12,10 @@ from typing import Optional
 from ..app.resources import Event, Match, Player, Team
 
 
-class GameRouter:
-    """Data structure that contains all the functions that can be overriden for a specific game's API
+class DataSource:
+    """Represents a single source of data for a custom API. Can use another API, can use web scraping, can even be
+    custom calls to your own database. If this is the case, make sure to set the flag `db.USE_CUSTOM` (WIP) so that the
+    default database is not used
 
     Functions:
         - `get_player`
@@ -29,26 +31,28 @@ class GameRouter:
     """
 
     @staticmethod
-    def is_implemented(router: GameRouter, method: str) -> bool:
-        """Detemines whether the given subclassed router implements a method, or whether it is still the default
-        method
+    def is_implemented(source: DataSource, method: str) -> bool:
+        """Detemine whether a `DataSource` overrides the given method
 
         Args:
-            router (GameRouter): The `GameRouter` subclass to check
+            source (DataSource): The `GameRouter` subclass to check
             method (str): The method to check
 
         Returns:
-            bool: Whether the subclassed router has a custom implementation of the method
+            bool: Whether the `DataSource` has a custom implementation of `method`
         """
-        return getattr(router, method) != getattr(GameRouter, method)
+        try:
+            return getattr(source, method) != getattr(DataSource, method)
+        except AttributeError:
+            # Log this error
+            return False
 
     @staticmethod
     def get_player(player_id: int) -> Optional[Player]:
-        """This method should be overridden if you want to allow people to access individual player data from your
-        game's endpoint
+        """Get data from the source about the player represented by the `player_id` given
 
         Args:
-            player_id (str): The player_id (not source_id) of the player in the database. This should correspond to the ID
+            player_id (str): The player_id of the player. This should correspond to the ID
             used to access the player's data from whatever external site or API you are using to scrape the data from
 
         Returns:
@@ -58,8 +62,8 @@ class GameRouter:
 
     @staticmethod
     def get_player_matches(player_id: int, page: int) -> list[Match]:
-        """This method should be overridden if you want to allow people to access a list of matches that a specific player
-        has played in
+        """Get data from the source about the matches that the player represented by the `player_id` has been a part of.
+        Paginated, with 20 matches per page
 
         Args:
             player_id (str): The id of the player to get the matches for

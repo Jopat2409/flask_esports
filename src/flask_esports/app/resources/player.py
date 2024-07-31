@@ -5,7 +5,8 @@ from ...source import SourceId
 
 
 class Player:
-    TABLENAME = "players"
+    """Contains all the information that can be represented 
+    """
 
     def __init__(
         self,
@@ -41,31 +42,6 @@ class Player:
         """
         return
 
-    @staticmethod
-    def from_record(record: dict) -> Player:
-        print(record)
-        player = Player(
-            SourceId(record["source"], record["player_id"]),
-            record["alias"],
-            record["forename"],
-            record["surname"],
-            record["avatar"],
-            0,
-        )
-        player.load_additional_info(record["additional_data"])
-        return player
-
-    def to_record(self) -> tuple:
-        return (
-            self.source.get_source(),
-            self.source.get_id(),
-            self.alias,
-            self.forename,
-            self.surname,
-            self.avatar,
-            time.time(),
-        )
-
     def __eq__(self, other: Player) -> bool:
         return (
             self.source == other.source
@@ -78,35 +54,3 @@ class Player:
 
     def __repr__(self) -> str:
         return f"Player {self.alias} ({self.forename} {self.surname}) {self.avatar} {self.current_team} {self.source}"
-
-
-class PlayerTeamAssociation:
-    TABLENAME = "player_team_association"
-
-    def __init__(
-        self,
-        player_id: SourceId,
-        team: SourceId,
-        joined_at: float,
-        left_at: float | None,
-    ) -> None:
-        self.player_id = player_id
-        self.team_id = team
-        self.joined_at = joined_at
-        self.left_at = left_at
-
-    @staticmethod
-    def from_record(record: dict) -> PlayerTeamAssociation:
-        return record
-
-
-class PlayerMatchAssociation:
-    TABLENAME = "player_match_assocation"
-
-    def __init__(self, player_id: SourceId, match_id: SourceId):
-        self.player = player_id
-        self.match = match_id
-
-    @staticmethod
-    def from_record(record: dict) -> PlayerMatchAssociation:
-        return record
