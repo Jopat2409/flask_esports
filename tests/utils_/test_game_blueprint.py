@@ -1,4 +1,4 @@
-from flask_esports.api.game_router import GameBlueprint, GameRouter
+from flask_esports.api.source import GameBlueprint, GameRouter
 
 class TestRouter(GameRouter):
 

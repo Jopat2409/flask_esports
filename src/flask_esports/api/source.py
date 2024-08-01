@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Optional
 
 from ..app.resources import Event, Match, Player, Team
+from ..app.resources.associations import TeamPlayer
 
 
 class DataSource:
@@ -72,51 +73,87 @@ class DataSource:
         Returns:
             list[Match]: a list of the matches that the player has played (or None if the )
         """
-        return None
+        return []
 
     @staticmethod
     def get_player_teams(player_id: int) -> list[Team]:
-        """This method should be overridden if you want to allow users to access a list of teams a player has been a part
-        of
+        """Get data from the source regarding the previous and current teams that the given player has played on /
+        been a part of
 
         Args:
-            player_id (int): _description_
+            player_id (int): The id of the player to get the teams for
 
         Returns:
-            list[Team]: list of player teams, or None if this method is not supported
+            list[Team]:  list of the teams that the player has played on (or None if the )
         """
-        return None
+        return []
 
     @staticmethod
     def get_team(team_id: int) -> Optional[Team]:
-        """This method should be overridden if you want to allow users to access data about a specific team
+        """Get data from the source regarding a team, given the `team_id` of the team
 
         Args:
             team_id (int): the ID of the team to get information about
 
         Returns:
-            Team: The team object containing the team data, or None if the team_id cannot be found
+            Optional[Team]: The team object containing the team data, or None if the `team_id` cannot be found
         """
         return None
 
     @staticmethod
     def get_team_matches(team_id: int, page: int) -> list[Match]:
+        """Get data from the source regarding the matches that a given team has played. Paginated with 20 matches
+        per page
+
+        Args:
+            team_id (int): The ID of the team to get matches for
+            page (int): The page to get (1-indexed)
+
+        Returns:
+            list[Match]: The matches
+        """
         return []
 
     @staticmethod
-    def get_team_players(team_id: int) -> list[Player]:
+    def get_team_players(team_id: int) -> list[TeamPlayer]:
+        """Get data from the source regarding the player history of a given team. The information returned should be
+        the player's data (although it does not have to be completed), the epoch of the join date of the player, and
+        the epoch of the leaving date (or `None` if it is the current team)
+
+        Args:
+            team_id (int): The ID of the team to get the player history for
+
+        Returns:
+            list[TeamPlayer]: History of players on the team
+        """
         return []
 
     @staticmethod
     def get_match(match_id: int) -> Optional[Match]:
+        """Get data from the source regarding the information of the given match
+
+        Args:
+            match_id (int): The ID of the match to get the details of
+
+        Returns:
+            Optional[Match]: The match data (or `None` if it does not exist)
+        """
         return None
 
     @staticmethod
     def get_event(event_id: int) -> Optional[Event]:
+        """Get data from the source about the event corresponding to the `event_id`
+
+        Args:
+            event_id (int): _description_
+
+        Returns:
+            Optional[Event]: _description_
+        """
         return None
 
     @staticmethod
-    def get_event_matches(event_id: int) -> list[Match]:
+    def get_event_matches(event_id: int, page: int = 1) -> list[Match]:
         return []
 
     @staticmethod

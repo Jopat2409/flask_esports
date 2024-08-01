@@ -6,8 +6,8 @@ This includes:
     - `ResponseFactory`, the factory class that should be used whenever a flask Response should be returned
 """
 
-from .game_blueprint import GameBlueprint
-from .game_router import GameRouter
-from .response_factory import ResponseFactory
+from .blueprint import GameBlueprint
+from .source import DataSource
+from .response import ResponseFactory, Message
 
-__all__ = [GameBlueprint, GameRouter, ResponseFactory]
+__all__ = [GameBlueprint, DataSource, ResponseFactory, Message]

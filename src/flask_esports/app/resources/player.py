@@ -1,12 +1,10 @@
 from __future__ import annotations
-import time
 
 from ...source import SourceId
 
 
 class Player:
-    """Contains all the information that can be represented 
-    """
+    """Contains all the information that can be represented"""
 
     def __init__(
         self,

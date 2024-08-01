@@ -11,5 +11,6 @@ These are:
 from .player import Player
 from .match import Match
 from .team import Team
+from .event import Event
 
-__all__ = [Player, Match, Team]
+__all__ = [Player, Match, Team, Event]

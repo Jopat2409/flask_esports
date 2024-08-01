@@ -5,8 +5,8 @@ If the response style of the application should be changed, it can be done so by
 
 from flask import Response, jsonify
 
-class Message:
 
+class Message:
     @staticmethod
     def endpoint_not_supported_error(endpoint: str, game: str = "") -> str:
         """Create a standardized error message for when the user is attempting to access an endpoint that is not supported
@@ -33,6 +33,10 @@ class Message:
             str: the error message
         """
         return f"The given value of {name} is invalid. It must be an integer value."
+
+    @staticmethod
+    def resource_not_found_error(res: str, id_: str) -> str:
+        return f"The {res} with the given id {id_} could not be found. Please check your ID and try again."
 
 
 class ResponseFactory:
