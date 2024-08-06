@@ -9,7 +9,7 @@ information about teams
 from __future__ import annotations
 from enum import IntEnum
 
-from ...source import SourceId
+from ..source import SourceId
 
 
 class Role(IntEnum):

@@ -1,22 +1,21 @@
 from __future__ import annotations
+from typing import Optional
 
-from ...source import SourceId
+from ..source import SourceId
 
 
 class Match:
-    TABLENAME = "matches"
-
     def __init__(
         self,
         match_id: SourceId,
-        event_id: int,
-        match_name: str,
-        home_team: int,
-        away_team: int,
-        home_score: int,
-        away_score: int,
-        match_epoch: float,
-        match_stats: dict,
+        event_id: Optional[int] = None,
+        match_name: Optional[str] = None,
+        home_team: Optional[int] = None,
+        away_team: Optional[int] = None,
+        home_score: Optional[int] = None,
+        away_score: Optional[int] = None,
+        match_epoch: Optional[float] = None,
+        match_stats: Optional[dict] = None,
     ) -> None:
         self.match = match_id
         self.event = event_id
@@ -42,22 +41,10 @@ class Match:
             "match-stats": self.stats,
         }
 
-    @staticmethod
-    def from_record(record: dict) -> Match:
-        return record
-
-    def to_record(self) -> tuple:
-        return (
-            self.match.get_source(),
-            self.match.get_id(),
-            self.event,
-            self.match_name,
-            self.match_epoch,
-        )
-
     def __eq__(self, other: Match) -> bool:
         return (
-            self.match == other.match
+            isinstance(other, Match)
+            and self.match == other.match
             and self.event == other.event
             and self.match_name == other.match_name
             and self.teams == other.teams

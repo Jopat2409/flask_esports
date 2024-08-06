@@ -152,6 +152,11 @@ class GameBlueprint:
         )
         return next(resources)
 
+    def get_resource_priority(self, res: str, priorty: DataSource, *args, **kwargs):
+        return getattr(priorty, f"get_{res}")(*args, **kwargs) or self.get_resource_fcf(
+            res
+        )
+
     def get_player(self, player_id: int) -> Response:
         # Fetch the data
         player = self.get_resource_fcf("player", player_id)
